@@ -1,0 +1,5 @@
+.env
+.venv/
+journal.txt
+embed_test.py
+__pycache__/
