@@ -9,6 +9,8 @@ import psycopg
 from pgvector.psycopg import register_vector
 from datetime import date
 
+from db import get_db_connection
+
 load_dotenv()
 client = OpenAI()
 
@@ -25,7 +27,7 @@ def retrieve(question: str, top_k: int = 5, start_date: str = None, end_date: st
 
     question_vector = Vector(embed(question)) # convert the question into an embedding vector and cast into pgvector Vector object
 
-    with psycopg.connect("dbname=" + os.getenv("DB_NAME")) as conn:
+    with get_db_connection() as conn:
         register_vector(conn) # translate python list to pgvector format
 
         with conn.cursor() as cur:

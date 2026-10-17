@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 import psycopg
+from db import get_db_connection
 from parser import Entry, parse_journal
 from pgvector.psycopg import register_vector
 
@@ -31,7 +32,7 @@ def main():
     print(f"Parsed {len(entries)} entries. Connecting to database...")
 
     # connect to db 
-    with psycopg.connect(dbname=db_name) as conn:
+    with get_db_connection() as conn:
         # tell python how to translate between python list and pgvector format
         register_vector(conn)
 
