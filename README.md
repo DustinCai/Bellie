@@ -123,5 +123,7 @@ curl https://YOUR-URL.up.railway.app/health
 ```
 - Test `/ask` via `https://YOUR-URL.up.railway.app/docs` → click **Authorize**, paste `BELLIE_API_KEY` → try a question
 
+![Bellie /ask endpoint responding with a grounded answer](screenshots/ask-demo.png)
+
 ### 8. Tear down when done (to stop all cost)
 Project **Settings → Danger Zone → Delete Project**. This removes the app + database together. Code stays safe in GitHub — redeploy anytime by repeating this runbook.
