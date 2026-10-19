@@ -1,4 +1,20 @@
 # Bellie Project
+A RAG Q&A tool for personal journals. Ask a question and get an answer grounded in your actual journal entries. 
+
+## How it works
+1. A journal export (plain text, dated entries) is parsed into individual dated entries
+2. Each entry is embedded (OpenAI `text-embedding-3-small`) and stored in Postgres with the `pgvector` extension
+3. A question is embedded the same way, and Postgres finds the most similar entries by cosine distance, optionally filtered to a date range
+4. The retrieved entries are passed to Claude (Anthropic API) along with the question, which generates an answer
+5. Everything is served through a FastAPI `/ask` endpoint, with auth, input validation, rate limiting, and generic error handling in front of it
+
+## Security
+- API key auth on `/ask`, via a dedicated key (not the OpenAI/Anthropic provider keys)
+- Pydantic request validation (question length cap, real date types — rejects malformed input before it reaches the database or either API)
+- Rate limiting (10 requests/minute per IP) to cap runaway API cost
+- Generic error responses to callers; full error detail logged server-side only, with entry/question content never logged
+- Parameterized SQL throughout (no string-built queries)
+
 
 ## To run 
 1. source .venv/bin/activate
